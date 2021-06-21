@@ -14,8 +14,8 @@ function makeBindElement(resource) {
 }
 
 async function bind(entity, iqCaller, resource) {
-  const result = await iqCaller.set(makeBindElement(resource));
-  const jid = result.getChildText("jid");
+  const result = await entity.sendReceive(xml('iq', {type: 'set'}, makeBindElement(resource))); 
+  const jid = result.getChild('bind', 'urn:ietf:params:xml:ns:xmpp-bind').getChildText("jid");
   entity._jid(jid);
   return jid;
 }
